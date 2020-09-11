@@ -18,7 +18,7 @@ inputs:
 - id: fastq2_id
   type: string
 
-- id: kallisto_index_file
+- id: index_file
   type: File
 
 - id: synapse_config
@@ -38,7 +38,7 @@ outputs: []
 steps:
 
 - id: syn_get1
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
   in: 
   - id: synapse_config
     source: synapse_config
@@ -48,7 +48,7 @@ steps:
   - filepath
 
 - id: syn_get2
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
   in: 
   - id: synapse_config
     source: synapse_config
@@ -58,7 +58,7 @@ steps:
   - filepath
 
 - id: kallisto
-  run: kallisto_paired_end_workflow.cwl
+  run: steps/kallisto/quant_paired.cwl
   in: 
   - id: fastq1
     source: syn_get1/filepath
@@ -66,8 +66,10 @@ steps:
     source: syn_get2/filepath
   - id: kallisto_threads
     source: kallisto_threads
-  - id: kallisto_index_file
-    source: kallisto_index_file
+  - id: index
+    source: index_file
+  - id: plaintext
+    valueFrom: $(true)
   out: 
   - abundance_tsv
 
@@ -83,7 +85,7 @@ steps:
   - output_file
 
 - id: syn_store
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-store-tool.cwl
   in: 
   - id: synapse_config
     source: synapse_config

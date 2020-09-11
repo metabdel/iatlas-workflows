@@ -17,7 +17,7 @@ inputs:
 - id: fastq2_ids
   type: string[]
 
-- id: index_file
+- id: kallisto_index_file
   type: File
 
 - id: synapse_config
@@ -51,8 +51,8 @@ steps:
     source: destination_id
   - id: kallisto_threads
     source: kallisto_threads
-  - id: index_file
-    source: index_file
+  - id: kallisto_index_file
+    source: kallisto_index_file
   scatter:
   - fastq1_id
   - fastq2_id

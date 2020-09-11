@@ -44,7 +44,7 @@ inputs:
 outputs:
 
 - id: abundance_h5
-  type: File
+  type: File?
   outputBinding:
     glob: "abundance.h5"
 
